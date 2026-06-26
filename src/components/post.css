@@ -1,0 +1,108 @@
+:root {
+    --primary: #ad39fa;
+    --primary-hover: #8813d6;
+    --secondary: #cccc;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --postBorder:#a07bcecc;
+}
+
+.post {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 5px 5px 3px 2px var(--secondary);
+    margin-bottom: 10px;
+}
+.postHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    width: 90%;
+    margin: 0 auto;
+
+}
+.postHeader .icon {
+    width: 40px;
+    height: 40px;
+        transition: all 0.3s ease-in-out;
+}
+.postHeader .icon img {
+    width: 100%;
+    border-radius: 50%;
+}
+.postHeader .username {
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 17px;
+}
+.postHeader .icon:hover {
+    color: var(--primary-hover);
+    cursor: pointer;
+}
+.post a {
+    text-decoration: none;
+}
+.postImage {
+    height: 200px;
+    overflow: hidden;
+    width: 90%;
+    margin: 0 auto;
+}
+.postImage img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+}
+.postBody {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto
+}
+.postBody .postTitleTime  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--postBorder);
+}
+.postBody .postTitleTime .postTime {
+    color: var(--primary);
+    font-size: 14px;
+}
+.postBody .postTitleTime .postTitle {
+    color: var(--primary);
+    font-size: 15px;
+    font-weight: bold;
+}
+.postBody .postDesc {
+    color: var(--dark);
+    font-size: 15px;
+    text-align: left;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+.postComments {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    padding-top: 4px;
+    margin-bottom: 20px;
+    border-top: 1px solid var(--postBorder);
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: bold;
+}
+.postComments span {
+    color:var(--warning)
+}
