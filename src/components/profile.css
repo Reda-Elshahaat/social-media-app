@@ -1,0 +1,68 @@
+:root {
+    --primary: #ad39fa;
+    --primary-hover: #8813d6;
+    --secondary: #cccc;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+}
+
+.profile {
+
+}
+.profileHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--secondary);
+    box-shadow: 5px 5px 3px 2px var(--secondary);
+    border-radius: 5px;
+    color: var(--primary);
+}
+.profileHeader .profileIcon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+}
+.profileHeader .profileIcon .icon {
+    width:60px;
+    height: 60px;
+}
+.profileHeader .profileIcon .icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.profileHeader .profileIcon .username {
+    font-size: 20px;
+}
+.profileBody {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--secondary);
+    box-shadow: 5px 5px 3px 2px var(--secondary);
+    border-radius: 5px;
+    color: var(--primary);
+}
+.profileBody .name {
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.profileBody .comments-posts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.profileBody .comments-posts span {
+    color: var(--warning);
+    font-size: 17px;
+    font-weight: bold;
+}

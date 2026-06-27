@@ -5,9 +5,11 @@ import './post.css'
 export default function Post({post}) {
   return (
     <div className='post'>
-        <div className='postHeader'>
-          <div className='icon'><img src={post.author.profile_image} alt=""/></div>
-          <h4 className='username'>{post.author.username}</h4>
+        <div >
+          <Link className='postHeader' to={`/users/${post.author.id}`} >
+            <div className='icon'><img src={post.author.profile_image} alt=""/></div>
+            <h4 className='username'>{post.author.username}</h4>
+          </Link>
         </div>
         <Link to={`/posts/${post.id}`}>
           <div className='postImage'>

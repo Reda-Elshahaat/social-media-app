@@ -2,59 +2,141 @@ import { useState } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
-
+import { Link } from 'react-router-dom';
 import './header.css';
 
 function Header() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [image, setImage] = useState('');
+   const baseApi = 'https://tarmeezacademy.com/api/v1';
   const [isLogin, setIsLogin] = useState(false);
   const [loginModalShow, setLoginModalShow] = useState(false);
+  const [registerModalShow, setRegisterModalShow] = useState(false);
 
-  const handleClose = () => setLoginModalShow(false);
-  const handleShow = () => setLoginModalShow(true);
   function loginUser(){
     const params = {
       "username":username,
       "password":password
     }
-    axios.post("https://tarmeezacademy.com/api/v1/login",params)
-        .then((response) =>{
-            localStorage.setItem("token",response.data.token)
-            localStorage.setItem("user",JSON.stringify(response.data.user))
-            setIsLogin(true);
-            localStorage.setItem("isLogin",isLogin)
-            // Hide the modal after successful login
-            setLoginModalShow(false);
-            console.log(response)
-        })
-        .catch(error => {
-          console.error('Login Failed:', error);
-          throw error;
-        });
+    if(!params.username || !params.password){
+      alert("Please enter username and password")
+      return
+    }
+    axios.post(`${baseApi}/login`,params)
+      .then((response) =>{
+          localStorage.setItem("token",response.data.token)
+          localStorage.setItem("user",JSON.stringify(response.data.user))
+          setIsLogin(true);
+          localStorage.setItem("isLogin",true)
+          // Hide the modal after successful login
+          setLoginModalShow(false);
+          setRegisterModalShow(false);
+          console.log('success',response)
+      })
+      .catch(error => {
+        console.error('Login Failed:', error);
+        // throw error;
+      });
     };
+    function RegisterUser(){
+      let formData = new FormData()
+        formData.append("username",username)
+        formData.append("password",password)
+        formData.append("name",name)
+        formData.append("email",email)
+        formData.append("image",image)
+      // const params = {
+      //   "username":'username',
+      //   "password":'password',
+      //   "name":'name',
+        // "email":email,
+        // "image":image
+      // }
+      // console.log('formData',formData) `${baseApi}/register`,params
+      // https://tarmeezacademy.com/api/v1/'register?username=fares1&password=123456&email=w@o.com&name=rrrr&image=https://cdn-icons-png.flaticon.com/512/149/149071.png'      
+        axios.post("https://tarmeezacademy.com/api/v1/register",formData,{
+          headers :{
+            "Content-Type": "multipart/form-data"
+          }
+        })
+          .then((response) => {
+              localStorage.setItem("token",response.data.token)
+              localStorage.setItem("user",JSON.stringify(response.data.user))
+              localStorage.setItem("isLogin",true)
+              setIsLogin(true);
+              // Hide the modal after successful login
+              setRegisterModalShow(false);
+              setLoginModalShow(false);
+              console.log('success',response)
+          })
+          .catch(error => {
+            console.error('Register Failed:', error);
+            // throw error;
+          });
+    }
+    let user = JSON.parse(localStorage.getItem("user"))
+    // console.log('user',user)
   return (
       <div className="AppHeader">
 
-         <div className="header">
+          <div className="header">
             <div className="logo-header">
               <span className='logo'><a  href="/">FRIENDS</a></span>
               <a href="/">Home</a>
-              <a href="/">Profile</a>
             </div>
-            {
-              localStorage.getItem("isLogin")? '':
-              <div className="registeration">
-                <button onClick={handleShow}>Login</button>
-                <button >Register</button>
-              </div>
-            }
-         </div>
+            <div className="registeration">
+              {
+                localStorage.getItem("isLogin")? <Link to={`/users/${user.id}`}>{user.username}</Link>:
+                <>
+                <button onClick={()=>{
+                  setLoginModalShow(true)
+                  setRegisterModalShow(false)
+                }}>Login</button>
+                <button onClick={()=> {
+                
+                  setRegisterModalShow(true)
+                  setLoginModalShow(false)
+                }}>Register</button>
+                </>
+              }
+            </div>
+          </div>
 
-
-
-            <Modal className='loginModal' show={loginModalShow} onHide={handleClose}>
+            {/* modals */}
+            {/* register modal */}
+            <Modal className='registerModal' show={registerModalShow} onHide={() => setRegisterModalShow(false)}>
+              <Modal.Header >
+                <Modal.Title className='title'>Register</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <form >
+                  <label htmlFor="username">Username:</label>
+                  <input onChange={(e)=> setUsername(e.target.value)} type="text" id="username" name="username" required />
+                  <label htmlFor="password">Password:</label>
+                  <input onChange={(e)=> setPassword(e.target.value)} type="password" id="password" name="password" required />
+                  <label htmlFor="username">Name:</label>
+                  <input onChange={(e)=> setName(e.target.value)} type="text" id="username" name="username" required />
+                  <label htmlFor="email">Email:</label>
+                  <input onChange={(e)=> setEmail(e.target.value)} type="email" id="email" name="email" required />
+                  <label htmlFor="image">Image:</label>
+                  <input onChange={(e)=> setImage(e.target.files[0])} type="file" id="image" name="image"  />
+                  <Modal.Footer>
+                    <Button className='close '  onClick={() => setRegisterModalShow(false)}>
+                      Close
+                    </Button>
+                    <Button className='save' type="submit" onClick={RegisterUser}>
+                      Register
+                    </Button>
+                  </Modal.Footer>
+                </form>
+              </Modal.Body>
+            </Modal>
+            {/* //////////////register modal */}
+            {/* Login modal */}
+            <Modal className='loginModal' show={loginModalShow} onHide={() => setLoginModalShow(false)}>
               <Modal.Header >
                 <Modal.Title className='title'>Login</Modal.Title>
               </Modal.Header>
@@ -64,11 +146,10 @@ function Header() {
                   <input onChange={(e)=> setUsername(e.target.value)} type="text" id="username" name="username" required />
                   <label htmlFor="password">Password:</label>
                   <input onChange={(e)=> setPassword(e.target.value)} type="password" id="password" name="password" required />
-                  {/* <button type="submit">Login</button> */}
                 </form>
               </Modal.Body>
               <Modal.Footer>
-                <Button className='close '  onClick={handleClose}>
+                <Button className='close '  onClick={() => setLoginModalShow(false)}>
                   Close
                 </Button>
                 <Button className='save' type="submit" onClick={loginUser}>
