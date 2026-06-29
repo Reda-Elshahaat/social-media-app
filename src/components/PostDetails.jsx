@@ -1,10 +1,22 @@
 import React, { useEffect,useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import axios from 'axios'
 import './postDetails&comments.css'
 export default function PostDetails() {
     const [post , setPost] = useState({})
+    const [commentBody , setCommentBody] = useState('')
     const [postLoading , setPostLoading] = useState(true)
     const id = useParams()
+    function addComment(){
+        axios.post(`https://tarmeezacademy.com/api/v1/posts/${id.id}/comments`,{body:commentBody},{
+            headers :{
+                "authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        // .then(res => console.log(res))
+        .catch(err => console.log(err))
+        .finally(() => setCommentBody(''))
+    }
     useEffect(() => {
         fetch(`https://tarmeezacademy.com/api/v1/posts/${id.id}`)
         .then(res => res.json())
@@ -12,7 +24,7 @@ export default function PostDetails() {
         .catch(err => {
           console.log(`Error fetching in post with id : ${id.id} `,err)
         }).finally(()=>{
-            console.log(post)
+            // console.log(post)
             setPostLoading(false)
         })
     })
@@ -21,10 +33,12 @@ export default function PostDetails() {
       {postLoading? "Loading..." :
         <div>
             <div  className='post'>
-                <div className='postHeader'>
-                    <div className='icon'><img src={post.author.profile_image} alt=""/></div>
-                    <h4 className='username'>{post.author.username}</h4>
-                </div>
+                <Link to={`/users/${post.author.id}`}>
+                    <div className='postHeader'>
+                        <div className='icon'><img src={post.author.profile_image} alt=""/></div>
+                        <h4  className='username'>{post.author.username}</h4>
+                    </div>
+                </Link>
                 <div className='postImage'>
                     <img src={post.image} alt="" />
                 </div>
@@ -53,6 +67,13 @@ export default function PostDetails() {
                     </div>
                 ))
              }
+            {/* add comment */}
+            <div>
+                <div className='addComment'>
+                    <input value={commentBody} onChange={(e) => setCommentBody(e.target.value)} className='commentInput' type="text" placeholder='Add a comment' />
+                    <button className='commentBtn' type='submit' onClick={addComment}>Add</button>
+                </div>
+            </div>
         </div>
 
       }

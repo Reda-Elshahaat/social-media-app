@@ -1,8 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import  imagee from './../logo192.png'
 import './post.css'
 export default function Post({post}) {
+  // let user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <div className='post'>
         <div >
@@ -10,6 +11,12 @@ export default function Post({post}) {
             <div className='icon'><img src={post.author.profile_image} alt=""/></div>
             <h4 className='username'>{post.author.username}</h4>
           </Link>
+          {
+            // post.author.id === user.id &&
+            // <div className='deletePost'>
+            //   <button>delete</button>
+            // </div>
+          }
         </div>
         <Link to={`/posts/${post.id}`}>
           <div className='postImage'>

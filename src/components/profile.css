@@ -1,7 +1,7 @@
 :root {
     --primary: #ad39fa;
     --primary-hover: #8813d6;
-    --secondary: #cccc;
+    --secondary: #ebeaeacc;
     --success: #28a745;
     --info: #17a2b8;
     --warning: #ffc107;
@@ -61,8 +61,17 @@
     justify-content: space-between;
     margin-bottom: 10px;
 }
-.profileBody .comments-posts span {
+span {
     color: var(--warning);
     font-size: 17px;
     font-weight: bold;
+}
+
+.profilePosts > h3 {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--secondary);
+    box-shadow: 5px 5px 3px 2px var(--secondary);
+    border-radius: 5px;
+    color: var(--primary);
 }

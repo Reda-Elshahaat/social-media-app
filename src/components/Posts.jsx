@@ -1,5 +1,4 @@
 import React, { useEffect ,useState } from 'react'
-import axios from 'axios';
 import Post from './Post'
 export default function Posts() {
   const baseApi = 'https://tarmeezacademy.com/api/v1';

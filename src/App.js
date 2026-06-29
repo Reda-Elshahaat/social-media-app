@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from 'react';
 import { Route ,Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Posts from './components/Posts';
@@ -6,6 +7,7 @@ import Profile from './components/Profile';
 import PostDetails from './components/PostDetails'
 import CreatePost from './components/CreatePost'
 function App() {
+    const [profilePosts , setProfilePosts] = useState([]);
   
   return (
     <>
@@ -13,7 +15,7 @@ function App() {
         <Header/>
         {localStorage.getItem("isLogin") && <CreatePost/>}
       <Routes>
-        <Route path="/users/:id" element={<Profile/>}/>
+        <Route path="/users/:id" element={<Profile profilePosts={profilePosts} setProfilePosts={setProfilePosts}/>}/>
         <Route path="/" element={<Posts/>}/>
         <Route path="/posts/:id" element={<PostDetails/>}/>
       </Routes>

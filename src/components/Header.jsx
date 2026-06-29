@@ -10,7 +10,7 @@ function Header() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [image, setImage] = useState('');
+  // const [image, setImage] = useState('');
    const baseApi = 'https://tarmeezacademy.com/api/v1';
   const [isLogin, setIsLogin] = useState(false);
   const [loginModalShow, setLoginModalShow] = useState(false);
@@ -42,40 +42,39 @@ function Header() {
       });
     };
     function RegisterUser(){
-      let formData = new FormData()
-        formData.append("username",username)
-        formData.append("password",password)
-        formData.append("name",name)
-        formData.append("email",email)
-        formData.append("image",image)
-      // const params = {
-      //   "username":'username',
-      //   "password":'password',
-      //   "name":'name',
-        // "email":email,
-        // "image":image
-      // }
-      // console.log('formData',formData) `${baseApi}/register`,params
-      // https://tarmeezacademy.com/api/v1/'register?username=fares1&password=123456&email=w@o.com&name=rrrr&image=https://cdn-icons-png.flaticon.com/512/149/149071.png'      
-        axios.post("https://tarmeezacademy.com/api/v1/register",formData,{
-          headers :{
-            "Content-Type": "multipart/form-data"
-          }
-        })
-          .then((response) => {
-              localStorage.setItem("token",response.data.token)
-              localStorage.setItem("user",JSON.stringify(response.data.user))
+      // let formData = new FormData()
+      //   formData.append("username",username)
+      //   formData.append("password",password)
+      //   formData.append("name",name)
+      //   formData.append("email",email)
+        // formData.append("image",image)
+  
+        let formData = {
+          "username":username,
+          "password":password,
+          "name":name,
+          "email":email
+        }
+      //    axios.post("https://tarmeezacademy.com/api/v1/register",formData//,{
+      //   //   headers :{
+      //   //     "Content-Type": "multipart/form-data"
+      //   //   }
+      //   // }
+      // )
+      //     .then((response) => {
+              localStorage.setItem("token",formData)
+              // localStorage.setItem("user",JSON.stringify(response.data.user))
               localStorage.setItem("isLogin",true)
               setIsLogin(true);
               // Hide the modal after successful login
               setRegisterModalShow(false);
               setLoginModalShow(false);
-              console.log('success',response)
-          })
-          .catch(error => {
-            console.error('Register Failed:', error);
-            // throw error;
-          });
+              // console.log('success',response)
+          // })
+          // .catch(error => {
+          //   console.error('Register Failed:', error);
+          //   // throw error;
+          // });
     }
     let user = JSON.parse(localStorage.getItem("user"))
     // console.log('user',user)
@@ -95,11 +94,11 @@ function Header() {
                   setLoginModalShow(true)
                   setRegisterModalShow(false)
                 }}>Login</button>
-                <button onClick={()=> {
+                {/* <button onClick={()=> {
                 
                   setRegisterModalShow(true)
                   setLoginModalShow(false)
-                }}>Register</button>
+                }}>Register</button> */}
                 </>
               }
             </div>
@@ -117,12 +116,12 @@ function Header() {
                   <input onChange={(e)=> setUsername(e.target.value)} type="text" id="username" name="username" required />
                   <label htmlFor="password">Password:</label>
                   <input onChange={(e)=> setPassword(e.target.value)} type="password" id="password" name="password" required />
-                  <label htmlFor="username">Name:</label>
-                  <input onChange={(e)=> setName(e.target.value)} type="text" id="username" name="username" required />
+                  <label htmlFor="name">Name:</label>
+                  <input onChange={(e)=> setName(e.target.value)} type="text" id="name" name="name" required />
                   <label htmlFor="email">Email:</label>
                   <input onChange={(e)=> setEmail(e.target.value)} type="email" id="email" name="email" required />
-                  <label htmlFor="image">Image:</label>
-                  <input onChange={(e)=> setImage(e.target.files[0])} type="file" id="image" name="image"  />
+                  {/* <label htmlFor="image">Image:</label> */}
+                  {/* <input onChange={(e)=> setImage(e.target.files[0])} type="file" id="image" name="image" crossorigin="anonymous" /> */}
                   <Modal.Footer>
                     <Button className='close '  onClick={() => setRegisterModalShow(false)}>
                       Close
@@ -149,7 +148,7 @@ function Header() {
                 </form>
               </Modal.Body>
               <Modal.Footer>
-                <Button className='close '  onClick={() => setLoginModalShow(false)}>
+                <Button className='close' onClick={() => setLoginModalShow(false)}>
                   Close
                 </Button>
                 <Button className='save' type="submit" onClick={loginUser}>
